@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가위 바위 보 게임</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #result {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+
+        #buttons {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>가위 바위 보 게임</h1>
+
+    <div id="result"></div>
+    <div id="buttons">
+        <button onclick="playGame('가위')">가위</button>
+        <button onclick="playGame('바위')">바위</button>
+        <button onclick="playGame('보')">보</button>
+    </div>
+
+    <script>
+        let userWins = 0;
+        let computerWins = 0;
+        let draws = 0;
+
+        function getComputerChoice() {
+            const choices = ["가위", "바위", "보"];
+            const randomIndex = Math.floor(Math.random() * choices.length);
+            return choices[randomIndex];
+        }
+
+        function determineWinner(userChoice, computerChoice) {
+            if (userChoice === computerChoice) {
+                return "비겼다!";
+            } else if (
+                (userChoice === "가위" && computerChoice === "보") ||
+                (userChoice === "바위" && computerChoice === "가위") ||
+                (userChoice === "보" && computerChoice === "바위")
+            ) {
+                return "이겼다!";
+            } else {
+                return "졌다!";
+            }
+        }
+
+        function playGame(userChoice) {
+            const computerChoice = getComputerChoice();
+            const result = determineWinner(userChoice, computerChoice);
+
+            document.getElementById('result').innerHTML = `
+                <p>유저: ${userChoice}, 컴퓨터: ${computerChoice}</p>
+                <p>결과: ${result}</p>
+            `;
+
+            if (result === "이겼다!") {
+                userWins++;
+            } else if (result === "졌다!") {
+                computerWins++;
+            } else {
+                draws++;
+            }
+
+            const playAgain = confirm("게임을 계속하시겠습니까?");
+            if (playAgain) {
+                document.getElementById('result').innerHTML = '';
+            } else {
+                document.getElementById('result').innerHTML += `
+                    <p>게임 종료</p>
+                    <p>이겼다!: ${userWins}, 졌다!: ${computerWins}, 비겼다!: ${draws}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+
+</html>
