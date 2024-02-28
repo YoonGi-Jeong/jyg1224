@@ -16,6 +16,7 @@ class MembershipSystem:
     def __init__(self):
         self.members = {}
         self.posts = []
+        self.current_user = None  # 현재 로그인한 사용자
 
     def register_member(self, name, username, password):
         if username in self.members:
@@ -29,17 +30,28 @@ class MembershipSystem:
             print(f"{name}님, 회원가입을 축하합니다.")
             print("-" * 34)
 
-    def create_post(self, author, title, content):
-        if author in self.members:
-            new_post = Post(title, content, author)
+    def login(self, username, password):
+        if username in self.members and self.members[username].password == password:
+            self.current_user = self.members[username]
+            print("-" * 40)
+            print(f"{self.current_user.name}님, 환영합니다. 로그인되었습니다.")
+            print("-" * 40)
+        else:
+            print("-" * 50)
+            print("아이디 또는 비밀번호가 올바르지 않습니다.")
+            print("-" * 50)
+
+    def create_post(self, title, content):
+        if self.current_user:
+            new_post = Post(title, content, self.current_user.username)
             self.posts.append(new_post)
             print("-" * 50)
-            print(f"{author}님, 새로운 게시글이 작성되었습니다.")
+            print(f"{self.current_user.name}님, 새로운 게시글이 작성되었습니다.")
             print("-" * 50)
         else:
-            print("-" * 80)
-            print(f"{author}님은 등록된 회원이 아닙니다. 먼저 회원가입을 진행해주세요.")
-            print("-" * 80)
+            print("-" * 50)
+            print("로그인이 필요합니다. 먼저 로그인을 진행해주세요.")
+            print("-" * 50)
 
     def display_members(self):
         print("-" * 30)
@@ -58,6 +70,7 @@ class MembershipSystem:
             print("등록된 게시글이 없습니다.")
         else:
             for post in self.posts:
+                print("-" * 30)
                 print(f"제목: {post.title}, 작성자: {post.author}")
                 print(f"내용: {post.content}")
         print("-" * 30)
@@ -66,7 +79,7 @@ class MembershipSystem:
 membership_system = MembershipSystem()
 
 while True:
-    print("\n1. 회원가입\n2. 회원 목록 조회\n3. 게시글 작성\n4. 게시글 목록 조회\n5. 종료")
+    print("\n1. 회원가입\n2. 로그인\n3. 회원 목록 조회\n4. 게시글 작성\n5. 게시글 목록 조회\n6. 종료")
     choice = input("번호를 선택 해주세요: ")
 
     if choice == '1':
@@ -76,21 +89,27 @@ while True:
         membership_system.register_member(name, username, password)
 
     elif choice == '2':
-        membership_system.display_members()
+        username = input("아이디를 입력하세요: ")
+        password = input("비밀번호를 입력하세요: ")
+        membership_system.login(username, password)
 
     elif choice == '3':
-        if not membership_system.members:
-            print("등록된 회원이 없습니다. 먼저 회원가입을 진행해주세요.")
-        else:
-            author = input("게시글을 작성할 회원의 아이디를 입력하세요: ")
-            title = input("게시글 제목을 입력하세요: ")
-            content = input("게시글 내용을 입력하세요: ")
-            membership_system.create_post(author, title, content)
+        membership_system.display_members()
 
     elif choice == '4':
-        membership_system.display_posts()
+        if not membership_system.current_user:
+            print("-" * 50)
+            print("로그인이 필요합니다. 먼저 로그인을 진행해주세요.")
+            print("-" * 50)
+        else:
+            title = input("게시글 제목을 입력하세요: ")
+            content = input("게시글 내용을 입력하세요: ")
+            membership_system.create_post(title, content)
 
     elif choice == '5':
+        membership_system.display_posts()
+
+    elif choice == '6':
         print("프로그램을 종료합니다.")
         break
 
