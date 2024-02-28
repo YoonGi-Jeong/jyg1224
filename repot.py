@@ -63,24 +63,25 @@ class MembershipSystem:
                 print(f"이름: {member.name}, 아이디: {username}")
         print("-" * 30)
 
-    def display_posts(self):
+    def display_posts(self, search_word=None):
         print("-" * 30)
         print("\n게시글 목록:")
         if not self.posts:
             print("등록된 게시글이 없습니다.")
         else:
             for post in self.posts:
-                print("-" * 30)
-                print(f"제목: {post.title}, 작성자: {post.author}")
-                print(f"내용: {post.content}")
+                if search_word is None or search_word.lower() in post.content.lower() or search_word.lower() in post.title.lower():
+                    print("-" * 30)
+                    print(f"제목: {post.title}, 작성자: {post.author}")
+                    print(f"내용: {post.content}")
         print("-" * 30)
 
 
 membership_system = MembershipSystem()
 
 while True:
-    print("\n1. 회원가입\n2. 로그인\n3. 회원 목록 조회\n4. 게시글 작성\n5. 게시글 목록 조회\n6. 종료")
-    choice = input("번호를 선택 해주세요: ")
+    print("\n1. 회원가입\n2. 로그인\n3. 회원 목록 조회\n4. 게시글 작성\n5. 게시글 목록 조회\n6. 게시글 검색\n7. 종료")
+    choice = input("번호를 선택하세요: ")
 
     if choice == '1':
         name = input("이름을 입력하세요: ")
@@ -110,8 +111,13 @@ while True:
         membership_system.display_posts()
 
     elif choice == '6':
+        search_word = input("검색할 단어를 입력하세요: ")
+        membership_system.display_posts(search_word)
+
+    elif choice == '7':
         print("프로그램을 종료합니다.")
         break
 
     else:
         print("올바른 선택이 아닙니다. 다시 선택해주세요.")
+        
