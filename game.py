@@ -4,7 +4,7 @@ import random
 def get_user_choice():
     user_choice = input("가위, 바위, 보 중 하나를 선택하세요: ").lower()
     while user_choice not in ["가위", "바위", "보"]:
-        print("잘못된 입력입니다. 가위, 바위, 보 중 하나를 다시 선택하세요.")
+        print("잘못 누르셨습니다. 가위, 바위, 보 중 하나를 다시 선택하세요.")
         user_choice = input("가위, 바위, 보 중 하나를 선택하세요: ").lower()
     return user_choice
 

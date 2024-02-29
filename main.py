@@ -24,7 +24,7 @@ def updown_game():
             attempts += 1
 
             if guess == random_number:
-                print(f"정답입니다!. 시도 횟수: {attempts}\n")
+                print(f"정답입니다!!!. 시도 횟수: {attempts}\n")
                 break
             elif guess < random_number:
                 print("UP!")
