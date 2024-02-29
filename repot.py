@@ -34,7 +34,7 @@ class MembershipSystem:
         if username in self.members and self.members[username].password == password:
             self.current_user = self.members[username]
             print("-" * 40)
-            print(f"{self.current_user.name}님, 환영합니다. 로그인되었습니다.")
+            print(f"{self.current_user.name}님, 환영합니다.")
             print("-" * 40)
         else:
             print("-" * 50)
