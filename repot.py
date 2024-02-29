@@ -16,7 +16,7 @@ class MembershipSystem:
     def __init__(self):
         self.members = {}
         self.posts = []
-        self.current_user = None  # 현재 로그인한 사용자
+        self.current_user = None
 
     def register_member(self, name, username, password):
         if username in self.members:
